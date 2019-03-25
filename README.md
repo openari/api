@@ -1,3 +1,3 @@
-# DARCore
+# OpenARI API
 
-The main repository for DAR project.
+The main repository for OpenARI project.
