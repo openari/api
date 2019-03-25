@@ -1,0 +1,449 @@
+`FORMAT: 1A
+HOST: https://api.open-ari.art/admin
+
+# OpenARI Admin API
+
+OpenARI Admin API is API for OpenARI project administration.
+
+# Group Auth
+
+## Admin Auth [/auth]
+
+### Admin login  [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "email": "someone@somewhere.com",
+                "password": "the password"
+            }
+
++ Response 201
+
+            {
+                "id": "uuid",
+                "name": "Admin name",
+                "token": "token string"
+            }
+
+
+### Forget Password [POST /forget-password]
+
++ Request (application/json)
+
+        {
+            "email": "someone@somewhere.com"
+        }
+
++ Response 201 (application/json)
+
+
+### Change Password [POST /change-password]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "password": "new password"
+            }
+
++ Response 201 (application/json)
+
+
+
+# Group Admin Users
+
+## Admin Users [/admins]
+
+### List admins  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "admins": [{
+                    "id": "uuid",
+                    "name": "Admin name"
+                }]
+            }
+
+### Create a new admin  [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "name": "Admin name",
+                "email": "someone@somewhere.com"
+            }
+
++ Response 201
+
+            {
+                "id": "uuid",
+                "name": "Admin name"
+            }
+
+### Update an admin  [PUT]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "name": "Admin name",
+            }
+
++ Response 204
+
+
+
+# Group Artists
+
+## Artists [/artists]
+
+### List artists  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "artists": [{
+                    "name": "Artist name",
+                    "phone": "Contact phone number",
+                    "email": "someone@somewhere.com",
+                    "url": "https://someone.somewhere.com",
+                    "source": "google",
+                    "description": "why I'd like to sign up this project",
+                    "status": "pending",
+                    "invitation_code": null
+                }]
+            }
+
+### Approve an artist  [POST /artists/{artist_id}/approve]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "approve": true
+            }
+
++ Response 204
+
+
+
+# Group Arts
+
+## Arts [/arts]
+
+### List arts  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "arts": [{
+                    "identification": {
+                        "applicant": "Person or institute name",
+                        "email": "someone@somewhere.com",
+                        "phone": "Contact phone number",
+                        "type_of_object": "painting",
+                        "materials": "wood",
+                        "techniques": "carved",
+                        "measurements": "height: 100cm, width: 100cm",
+                        "inscriptions_and_markings": "",
+                        "distinguishing_features": "",
+                        "title": "My art",
+                        "subject": "Me",
+                        "date_or_period": "March 2019",
+                        "maker": "someone",
+                        "brief": "About who I am",
+                        "attachments": [
+                            {
+                                "url": "https://host.com/attachments/0001.ai",
+                                "hash": "hash code"
+                            }
+                        ]
+                    },
+                    "ownership": {
+                        "owner": "owner name",
+                        "email": "owner@somewhere.com",
+                        "phone": "Contact phone number",
+                        "price": "NTD1,000,000"
+                    }
+                }]
+            }
+
+### Approve an art  [POST /arts/{art_id}/approve]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "approve": true
+            }
+
++ Response 204
+
+
+
+## Arts [/art_revisions]
+
+### List art revisions  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "art_revisions": [{
+                    "art_id": "art_id",
+                    "identification": {
+                        "applicant": "Person or institute name",
+                        "email": "someone@somewhere.com",
+                        "phone": "Contact phone number",
+                        "type_of_object": "painting",
+                        "materials": "wood",
+                        "techniques": "carved",
+                        "measurements": "height: 100cm, width: 100cm",
+                        "inscriptions_and_markings": "",
+                        "distinguishing_features": "",
+                        "title": "My art",
+                        "subject": "Me",
+                        "date_or_period": "March 2019",
+                        "maker": "someone",
+                        "brief": "About who I am",
+                        "attachments": [
+                            {
+                                "url": "https://host.com/attachments/0001.ai",
+                                "hash": "hash code"
+                            }
+                        ]
+                    },
+                    "ownership": {
+                        "owner": "owner name",
+                        "email": "owner@somewhere.com",
+                        "phone": "Contact phone number",
+                        "price": "NTD1,000,000"
+                    }
+                }]
+            }
+
+### Approve an art revision  [POST /art_revisions/{art_revision_id}/approve]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "approve": true
+            }
+
++ Response 204
+
+
+
+## Pointers [/pointers]
+
+### List pointers  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "pointers": [{
+                    "art_id": "art_id",
+                    "pointer": {
+                        "applicant": "Person or institute name",
+                        "email": "someone@somewhere.com",
+                        "phone": "Contact phone number",
+                        "title": "Artwork review",
+                        "pointer_url": "http://somewhere.com/somepage.html",
+                        "abstract": "About who I am"
+                    }
+                }]
+            }
+
+### Approve a pointer  [POST /pointers/{pointer_id}/approve]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "approve": true
+            }
+
++ Response 204
+
+
+
+# Group Applications
+
+## Applications [/applications]
+
+### List applications  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "applications": [{
+                    "applicant": "Person or organization name",
+                    "phone": "Contact phone number",
+                    "email": "someone@somewhere.com",
+                    "url": "https://someone.somewhere.com",
+                    "source": "google",
+                    "description": "why I'd like to join this project as a 3rd party application"
+                }]
+            }
+
+### Approve an application  [POST /applications/{application_id}/approve]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "approve": true
+            }
+
++ Response 204
+
+
+## Application Tokens [/applications/{application_id}/tokens]
+
+### List application tokens  [GET]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "tokens": [{
+                    "id": "uuid",
+                    "application_id": "application id",
+                    "token": "token string",
+                    "status": "active"
+                }]
+            }
+
+### Issue an application token  [POST /applications/{application_id}/tokens]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "token": "token string"
+            }
+
++ Response 201
+
+### Invalidate an application token  [POST /applications/{application_id}/tokens/{token_id}/invalidate]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+
+
++ Response 201

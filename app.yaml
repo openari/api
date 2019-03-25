@@ -1,0 +1,14 @@
+env: flex
+runtime: nodejs
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 2
+env_variables:
+  INSTANCE_CONNECTION_NAME: "tcclabdar:asia-northeast1:tcclabdar"
+  PROJECT_ID: "tcclabdar"
+  JWTTOKEN_SECRET: "ENV_JWTTOKEN_SECRET"
+  JWTTOKEN_EXPIRES_IN: "30d"
+  ADMIN_JWTTOKEN_SECRET: "ENV_ADMIN_JWTTOKEN_SECRET"
+  EMAIL_SENDER: "CLab DAR project<clab@atmorning.com>"
+  WEB_URL: "https://www.clabdar.com"
+  ADMIN_URL: "https://admin.clabdar.com/"

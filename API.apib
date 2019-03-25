@@ -1,0 +1,266 @@
+`FORMAT: 1A
+HOST: https://api.open-ari.art/
+
+# OpenARI API
+
+API for OpenARI project.
+
+# Group Artists
+
+## Artists [/artists]
+
+### Register an artist (apply for invitation code)  [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "name": "Artist name",
+                "phone": "Contact phone number",
+                "email": "someone@somewhere.com",
+                "url": "https://someone.somewhere.com",
+                "source": "google",
+                "description": "why I'd like to sign up this project"
+            }
+
++ Response 201
+
+            {
+                "message": "Thank you! We will email you invitation code after approval."
+            }
+
+# Group Attachments - tentative
+
+## Attachments [/attachments]
+
+### Upload an attachment  [POST]
+
++ Request (multipart/form-data, boundary=AaB03x)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            --AaB03x
+            content-disposition: form-data; name="attachment"; filename="$filename"
+            Content-Type: $mimetype
+            Content-Transfer-Encoding: binary
+
+            $binarydata
+            --AaB03x--
+
+
++ Response 201
+
+            {
+                "id": "uuid",
+                "hash": "the hash value"
+            }
+
+# Group Art
+
+## Art [/arts]
+
+### Register an art  [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "invitation_code": "invitation code",
+                "identification": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "type_of_object": "painting",
+                    "materials": "wood",
+                    "techniques": "carved",
+                    "measurements": "height: 100cm, width: 100cm",
+                    "inscriptions_and_markings": "",
+                    "distinguishing_features": "",
+                    "title": "My art",
+                    "subject": "Me",
+                    "date_or_period": "March 2019",
+                    "maker": "someone",
+                    "brief": "About who I am",
+                    "attachments": [
+                        {
+                            "url": "https://host.com/attachments/0001.ai",
+                            "hash": "hash code"
+                        }
+                    ]
+                },
+                "ownership": {
+                    "owner": "owner name",
+                    "email": "owner@somewhere.com",
+                    "phone": "Contact phone number",
+                    "price": "NTD1,000,000"
+                }
+            }
+
++ Response 201
+
+            {
+                "message": "Thank you! We will email you ARI detail after approval."
+            }
+
+### Query for an art  [GET /arts/{art_id}]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200
+
+            {
+                "identification": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "type_of_object": "painting",
+                    "materials": "wood",
+                    "techniques": "carved",
+                    "measurements": "height: 100cm, width: 100cm",
+                    "inscriptions_and_markings": "",
+                    "distinguishing_features": "",
+                    "title": "My art",
+                    "subject": "Me",
+                    "date_or_period": "March 2019",
+                    "maker": "someone",
+                    "brief": "About who I am",
+                    "attachments": [
+                        {
+                            "url": "https://host.com/attachments/0001.ai",
+                            "hash": "hash code"
+                        }
+                    ]
+                },
+                "ownership": {
+                    "owner": "owner name",
+                    "email": "owner@somewhere.com",
+                    "phone": "Contact phone number",
+                    "price": "NTD1,000,000"
+                }
+            }
+
++ Response 404
+
+### Update an art  [PUT /arts/{art_id}]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "invitation_code": "invitation code",
+                "identification": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "type_of_object": "painting",
+                    "materials": "wood",
+                    "techniques": "carved",
+                    "measurements": "height: 100cm, width: 100cm",
+                    "inscriptions_and_markings": "",
+                    "distinguishing_features": "",
+                    "title": "My art",
+                    "subject": "Me",
+                    "date_or_period": "March 2019",
+                    "maker": "someone",
+                    "brief": "About who I am",
+                    "attachments": [
+                        {
+                            "url": "https://host.com/attachments/0001.ai",
+                            "hash": "hash code"
+                        }
+                    ]
+                },
+                "ownership": {
+                    "owner": "owner name",
+                    "email": "owner@somewhere.com",
+                    "phone": "Contact phone number",
+                    "price": "NTD1,000,000"
+                }
+            }
+
++ Response 201
+
+            {
+                "message": "Thank you! We will email you ARI detail after approval."
+            }
+
+### Add a pointer to an art  [POST /arts/{art_id}/pointers]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "invitation_code": "invitation code",
+                "pointer": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "title": "Artwork review",
+                    "pointer_url": "http://somewhere.com/somepage.html",
+                    "abstract": "About who I am"
+                }
+            }
+
++ Response 201
+
+            {
+                "message": "Thank you! We will email you updates after approval."
+            }
+
+# Group Applications
+
+## Applications [/applications]
+
+### Register an application (apply for access)  [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            {
+                "applicant": "Person or organization name",
+                "phone": "Contact phone number",
+                "email": "someone@somewhere.com",
+                "url": "https://someone.somewhere.com",
+                "source": "google",
+                "description": "why I'd like to join this project as a 3rd party application"
+            }
+
++ Response 201
+
+            {
+                "message": "Thank you! We will email you API access detail after approval."
+            }

@@ -1,0 +1,82 @@
+'use strict';
+
+require('dotenv').config();
+
+const Joi = require('joi');
+
+const Transformers = require('../helpers/transformers');
+const Arts = require('../../../models/arts');
+
+const artParamsSchema = Joi.object({
+  artId: Joi.number().required()
+});
+
+const approveArtBodySchema = Joi.object({
+  approve: Joi.boolean().required()
+});
+
+module.exports.list = {
+  description: 'List All Arts',
+  cors: true,
+  auth: {
+    strategy: 'jwt-admin'
+  },
+  handler: async function(request, h){
+
+    let finding = await Arts.list();
+
+    finding.arts = finding.arts.map(Transformers.artProfile);
+
+    return h.response(finding);
+  }
+};
+
+module.exports.getData = {
+  description: 'Get An Art',
+  cors: true,
+  auth: {
+    strategy: 'jwt-admin'
+  },
+  validate: {
+    params: artParamsSchema
+  },
+  handler: async function(request, h){
+
+    let artId = request.params.artId;
+    let art = await Arts.getArt(artId);
+
+    art = Transformers.artProfile(art);
+
+    return h.response(art);
+  }
+};
+
+module.exports.approve = {
+  description: 'Approve An Art',
+  cors: true,
+  auth: {
+    strategy: 'jwt-admin'
+  },
+  validate: {
+    params: artParamsSchema,
+    payload: approveArtBodySchema
+  },
+  handler: async function(request, h){
+
+    try {
+      const artId = request.params.artId;
+      const approve = request.payload.approve;
+      await Arts.approve(artId, approve);
+
+      const response = {};
+      response.msg = 'The art status is successfully updated.';
+
+      return h.response().code(204);
+    } catch (e) {
+      if (e == 'art not found') {
+        return h.response().code(401);
+      }
+      throw e;
+    }
+  }
+};
