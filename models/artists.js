@@ -43,4 +43,6 @@ module.exports.approve = async (artistId, approve) => {
     data.invitation_code = code;
   }
   await Artists.update({ id: artist.id, data: data });
+
+  return await Artists.findById(artistId);
 };

@@ -73,7 +73,7 @@ module.exports.approve = {
         to: artist.email,
         subject: "藝術家邀請碼 / Artist Invitation Code",
         text: `您的邀請碼為 ${artist.invitation_code}`,
-        html: `親愛的藝術家，<br/><br/><h2>歡迎您加入專案計劃！</h2>您的邀請碼為 <code>${artist.invitation_code}</code>。請至專案官網建立您的作品資料。<br/><br/>專案辦公室<br/>Dear Artist,<h2>This is your invitation code, <code>${artist.invitation_code}</code>.<br/>You may now register your art work on the project website.<br/>Have a nice day!<br/><br/>The Project Office`,
+        html: `親愛的藝術家，<br/><br/><h2>歡迎您加入專案計劃！</h2>您的邀請碼為 <code>${artist.invitation_code}</code>。請至專案官網建立您的作品資料。<br/><br/>專案辦公室<br/>Dear Artist,<h2>Welcome To Join Open ARI Project!</h2>This is your invitation code, <code>${artist.invitation_code}</code>.<br/>You may now register your art work on the project website.<br/>Have a nice day!<br/><br/>OpenARI Project Office`,
       };
       await mailSender.sendMail(mail);
 

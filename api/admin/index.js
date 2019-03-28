@@ -30,9 +30,9 @@ const register = async (server, options) => {
     { method: 'GET', path: '/arts/{artId}', config: Arts.getData },
     { method: 'POST', path: '/arts/{artId}/approve', config: Arts.approve },
 
-    { method: 'GET', path: '/art_revisions', config: ArtRevisions.list },
-    { method: 'GET', path: '/art_revisions/{artRevisionId}', config: ArtRevisions.getData },
-    { method: 'POST', path: '/art_revisions/{artRevisionId}/approve', config: ArtRevisions.approve },
+    { method: 'GET', path: '/art-revisions', config: ArtRevisions.list },
+    { method: 'GET', path: '/art-revisions/{artRevisionId}', config: ArtRevisions.getData },
+    { method: 'POST', path: '/art-revisions/{artRevisionId}/approve', config: ArtRevisions.approve },
 
     { method: 'GET', path: '/pointers', config: Pointers.list },
     { method: 'GET', path: '/pointers/{pointerId}', config: Pointers.getData },

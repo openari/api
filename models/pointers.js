@@ -28,6 +28,7 @@ module.exports.create = async (invitation_code, art_id, pointer) => {
 
   pointer.artist_id = artist.id;
   pointer.art_id = art_id;
+  pointer.status = 'pending';
   return Pointers.create(pointer);
 };
 

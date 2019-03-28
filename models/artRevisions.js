@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('assert').strict;
+const assert = require('assert');
 
 const DataStore = require('../libs/datastore');
 const Artists = new DataStore('Artists');

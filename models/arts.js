@@ -7,7 +7,7 @@ const ArtIdentifications = new DataStore('ArtIdentifications');
 const ArtOwnerships = new DataStore('ArtOwnerships');
 
 module.exports.list = async () => {
-  return await Arts.find({itemsField: 'Arts'});
+  return await Arts.find({itemsField: 'arts'});
 };
 
 module.exports.getArt = async (artId) => {
@@ -21,6 +21,11 @@ module.exports.getArt = async (artId) => {
 module.exports.getArtLatest = async (artId) => {
 
   let art = await Arts.findById(artId);
+
+  if (!art) {
+    return Promise.reject('art not found');
+  }
+
   if (art.revision_id) {
     art.identification = await ArtIdentifications.findOneBy('art_id', art.revision_id);
     art.ownership = await ArtOwnerships.findOneBy('art_id', art.revision_id);

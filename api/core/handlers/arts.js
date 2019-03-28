@@ -16,7 +16,7 @@ const createBodySchema = Joi.object({
     email: Joi.string().email().required(),
     phone: Joi.string().required(),
     type_of_object: Joi.string().required(),
-    material: Joi.string().allow(''),
+    materials: Joi.string().allow(''),
     techniques: Joi.string().allow(''),
     measurements: Joi.string().allow(''),
     inscriptions_and_markings: Joi.string().allow(''),
@@ -46,7 +46,15 @@ const artParamsSchema = Joi.object({
 module.exports.create = {
   description: 'Register an art',
   validate: {
-    payload: createBodySchema
+    payload: createBodySchema,
+    failAction: async (request, h, err) => {
+      if (err.isJoi) {
+        // do something with error
+        console.log(err.message);
+      }
+
+      throw err;
+    }
   },
   handler: async function(request, h){
 
@@ -79,11 +87,19 @@ module.exports.getData = {
   handler: async function(request, h){
 
     let artId = request.params.artId;
-    let art = await Arts.getArtLatest(artId);
 
-    art = Transformers.artProfile(art);
+    try {
 
-    return h.response(art);
+      let art = await Arts.getArtLatest(artId);
+      art = Transformers.artProfile(art);
+      return h.response(art);
+
+    } catch (e) {
+      if (e == 'art not found') {
+        return h.response({ error: 'Art not found.'}).code(404);
+      }
+      throw e;
+    }
   }
 };
 
@@ -96,7 +112,7 @@ module.exports.update = {
   handler: async function(request, h){
 
     try {
-      const artId = request.payload.art_id;
+      const artId = request.params.artId;
       const invitation_code = request.payload.invitation_code;
       const identification = request.payload.identification;
       const ownership = request.payload.ownership;

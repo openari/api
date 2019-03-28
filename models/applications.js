@@ -21,12 +21,12 @@ module.exports.create = async (applicant, phone, email, url, source, description
   return Applications.create(data);
 };
 
-module.exports.updateStatus = async (applicationId, status) => {
+module.exports.approve = async (applicationId, approve) => {
 
   const application = await Applications.findById(applicationId);
   if (!application) {
     return Promise.reject('application not found');
   }
-  var data = { status };
+  var data = { status : approve ? 'approved' : 'pending' };
   await Applications.update({ id: application.id, data: data });
 };

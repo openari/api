@@ -33,7 +33,8 @@ module.exports.artProfile = (art) => {
     subject: art.subject,
     revision_id: art.revision_id,
     identification: art.identification,
-    ownership: art.ownership
+    ownership: art.ownership,
+    status: art.status
   };
 };
 
@@ -48,19 +49,22 @@ module.exports.artRevisionProfile = (artRevision) => {
     subject: artRevision.subject,
     revision_id: artRevision.revision_id,
     identification: artRevision.identification,
-    ownership: artRevision.ownership
+    ownership: artRevision.ownership,
+    status: artRevision.status
   };
 };
 
 module.exports.pointerProfile = (pointer) => {
   return {
     id: pointer.id,
+    art_id: pointer.art_id,
     applicant: pointer.applicant,
     email: pointer.email,
     phone: pointer.phone,
     title: pointer.title,
     pointer_url: pointer.pointer_url,
-    abstract: pointer.abstract
+    abstract: pointer.abstract,
+    status: pointer.status
   };
 };
 
@@ -72,7 +76,8 @@ module.exports.applicationProfile = (application) => {
     email: application.email,
     url: application.url,
     source: application.source,
-    description: application.description
+    description: application.description,
+    status: application.status
   };
 };
 

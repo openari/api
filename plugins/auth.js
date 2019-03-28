@@ -1,4 +1,5 @@
 require('dotenv').config();
+const Admins = require('../models/admins');
 
 const register = async (server, options) => {
 
@@ -20,6 +21,25 @@ const register = async (server, options) => {
     },
     // Implement validation function
     validate: async (decoded, request) => {
+
+      const authAdmin = {
+        adminId: parseInt(decoded.adminId)
+      };
+
+      request.authAdmin = authAdmin;
+
+      try {
+        await Admins.statusCheck(authAdmin.adminId);
+
+        return {
+          isValid: true,
+          credentials: authAdmin
+        };
+      } catch (e) {
+        return {
+          isValid: false
+        };
+      }
 
     }
   });

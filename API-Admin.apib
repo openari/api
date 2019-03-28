@@ -85,6 +85,24 @@ OpenARI Admin API is API for OpenARI project administration.
                 }]
             }
 
+### Get an admin [GET /admins/:admin_id]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200 (application/json)
+
+        {
+            "id": "1",
+            "name": "Some One",
+            "email": "someone@somewhere.com",
+            "disabled": false
+        }
+
 ### Create a new admin  [POST]
 
 + Request (application/json)
@@ -154,6 +172,29 @@ OpenARI Admin API is API for OpenARI project administration.
                 }]
             }
 
+### Get an artist [GET /artists/:artist_id]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200 (application/json)
+
+        {
+            "id": "1",
+            "name": "Artist name",
+            "phone": "Contact phone number",
+            "email": "someone@somewhere.com",
+            "url": "https://someone.somewhere.com",
+            "source": "google",
+            "description": "why I'd like to sign up this project",
+            "status": "pending",
+            "invitation_code": null
+        }
+
 ### Approve an artist  [POST /artists/{artist_id}/approve]
 
 + Request (application/json)
@@ -221,6 +262,49 @@ OpenARI Admin API is API for OpenARI project administration.
                 }]
             }
 
+### Get an art [GET /arts/:art_id]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200 (application/json)
+
+        {
+            "id": "1",
+            "identification": {
+                "applicant": "Person or institute name",
+                "email": "someone@somewhere.com",
+                "phone": "Contact phone number",
+                "type_of_object": "painting",
+                "materials": "wood",
+                "techniques": "carved",
+                "measurements": "height: 100cm, width: 100cm",
+                "inscriptions_and_markings": "",
+                "distinguishing_features": "",
+                "title": "My art",
+                "subject": "Me",
+                "date_or_period": "March 2019",
+                "maker": "someone",
+                "brief": "About who I am",
+                "attachments": [
+                    {
+                        "url": "https://host.com/attachments/0001.ai",
+                        "hash": "hash code"
+                    }
+                ]
+            },
+            "ownership": {
+                "owner": "owner name",
+                "email": "owner@somewhere.com",
+                "phone": "Contact phone number",
+                "price": "NTD1,000,000"
+            }
+        }
+
 ### Approve an art  [POST /arts/{art_id}/approve]
 
 + Request (application/json)
@@ -239,7 +323,7 @@ OpenARI Admin API is API for OpenARI project administration.
 
 
 
-## Arts [/art_revisions]
+## Art Revisions [/art-revisions]
 
 ### List art revisions  [GET]
 
@@ -287,7 +371,51 @@ OpenARI Admin API is API for OpenARI project administration.
                 }]
             }
 
-### Approve an art revision  [POST /art_revisions/{art_revision_id}/approve]
+### Get an art revision [GET /art-revisions/:art_revision_id]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200 (application/json)
+
+        {
+            "id": "1",
+            "art_id": "art_id",
+            "identification": {
+                "applicant": "Person or institute name",
+                "email": "someone@somewhere.com",
+                "phone": "Contact phone number",
+                "type_of_object": "painting",
+                "materials": "wood",
+                "techniques": "carved",
+                "measurements": "height: 100cm, width: 100cm",
+                "inscriptions_and_markings": "",
+                "distinguishing_features": "",
+                "title": "My art",
+                "subject": "Me",
+                "date_or_period": "March 2019",
+                "maker": "someone",
+                "brief": "About who I am",
+                "attachments": [
+                    {
+                        "url": "https://host.com/attachments/0001.ai",
+                        "hash": "hash code"
+                    }
+                ]
+            },
+            "ownership": {
+                "owner": "owner name",
+                "email": "owner@somewhere.com",
+                "phone": "Contact phone number",
+                "price": "NTD1,000,000"
+            }
+        }
+
+### Approve an art revision  [POST /art-revisions/{art_revision_id}/approve]
 
 + Request (application/json)
 
@@ -321,6 +449,7 @@ OpenARI Admin API is API for OpenARI project administration.
 
             {
                 "pointers": [{
+                    "id": "id",
                     "art_id": "art_id",
                     "pointer": {
                         "applicant": "Person or institute name",
@@ -331,6 +460,31 @@ OpenARI Admin API is API for OpenARI project administration.
                         "abstract": "About who I am"
                     }
                 }]
+            }
+
+### Get a pointer  [GET /pointers/{pointer_id}]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "id": "id",
+                "art_id": "art_id",
+                "pointer": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "title": "Artwork review",
+                    "pointer_url": "http://somewhere.com/somepage.html",
+                    "abstract": "About who I am"
+                }
             }
 
 ### Approve a pointer  [POST /pointers/{pointer_id}/approve]
@@ -376,6 +530,28 @@ OpenARI Admin API is API for OpenARI project administration.
                     "source": "google",
                     "description": "why I'd like to join this project as a 3rd party application"
                 }]
+            }
+
+### Get an application  [GET /applications/{application_id}]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
++ Response 201
+
+            {
+                "id": "id",
+                "applicant": "Person or organization name",
+                "phone": "Contact phone number",
+                "email": "someone@somewhere.com",
+                "url": "https://someone.somewhere.com",
+                "source": "google",
+                "description": "why I'd like to join this project as a 3rd party application"
             }
 
 ### Approve an application  [POST /applications/{application_id}/approve]
