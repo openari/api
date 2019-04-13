@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const Joi = require('joi');
 
+const Transformers = require('../helpers/transformers');
 const Artists = require('../../../models/artists');
 
 const createBodySchema = Joi.object({
@@ -13,6 +14,10 @@ const createBodySchema = Joi.object({
   url: Joi.string().uri().allow(''),
   source: Joi.string().allow(''),
   description: Joi.string().allow('')
+});
+
+const verifyBodySchema = Joi.object({
+  invitation_code: Joi.string().required(),
 });
 
 module.exports.create = {
@@ -44,3 +49,30 @@ module.exports.create = {
     }
   }
 };
+
+module.exports.verify = {
+  description: 'Verify an artist',
+  cors: true,
+  validate: {
+    payload: verifyBodySchema
+  },
+  handler: async function(request, h){
+
+    let invitationCode = request.payload.invitation_code;
+
+    try {
+
+      let artist = await Artists.verifyInvitationCode(invitationCode);
+      console.log(artist);
+      artist = Transformers.artistProfile(artist);
+      return h.response(artist);
+
+    } catch (e) {
+      if (e == 'invalid invitation code') {
+        return h.response({ error: 'Invalid invitation code.'}).code(401);
+      }
+      throw e;
+    }
+  }
+};
+

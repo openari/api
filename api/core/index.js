@@ -11,6 +11,7 @@ const register = async (server, options) => {
     { method: 'GET', path: '/', config: Home.hello },
 
     { method: 'POST', path: '/artists', config: Artists.create },
+    { method: 'POST', path: '/artist-verify', config: Artists.verify },
 
     { method: 'POST', path: '/attachments', config: Attachments.upload },
 

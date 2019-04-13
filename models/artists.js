@@ -13,6 +13,15 @@ module.exports.getArtist = async (artistId) => {
   return await Artists.findById(artistId);
 };
 
+module.exports.verifyInvitationCode = async (invitation_code) => {
+
+  var artist = await Artists.findOneBy('invitation_code', invitation_code);
+  if (!artist) {
+    return Promise.reject('invalid invitation code');
+  }
+  return artist;
+};
+
 module.exports.create = async (name, phone, email, url, source, description) => {
 
   const found = await Artists.findOneBy('email', email);

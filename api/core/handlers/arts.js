@@ -7,7 +7,6 @@ const Joi = require('joi');
 const Transformers = require('../helpers/transformers');
 const Arts = require('../../../models/arts');
 const ArtRevisions = require('../../../models/artRevisions');
-const Pointers = require('../../../models/pointers');
 
 const createBodySchema = Joi.object({
   invitation_code: Joi.string().required(),
