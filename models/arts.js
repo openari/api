@@ -10,6 +10,22 @@ module.exports.list = async () => {
   return await Arts.find({itemsField: 'arts'});
 };
 
+module.exports.publicList = async () => {
+  let list = await Arts.find({
+    filter: {
+      prefix: 'status',
+      operator: '=',
+      suffix: 'approved'
+    },
+    itemsField: 'arts'
+  });
+  list.arts = await Promise.all(
+    list.arts.map(async item => await module.exports.getArtLatest(item.id))
+  );
+  console.log(list);
+  return list;
+};
+
 module.exports.getArt = async (artId) => {
 
   let art = await Arts.findById(artId);
@@ -27,8 +43,8 @@ module.exports.getArtLatest = async (artId) => {
   }
 
   if (art.revision_id) {
-    art.identification = await ArtIdentifications.findOneBy('art_id', art.revision_id);
-    art.ownership = await ArtOwnerships.findOneBy('art_id', art.revision_id);
+    art.identification = await ArtIdentifications.findOneBy('revision_id', art.revision_id);
+    art.ownership = await ArtOwnerships.findOneBy('revision_id', art.revision_id);
   } else {
     art.identification = await ArtIdentifications.findOneBy('art_id', art.id);
     art.ownership = await ArtOwnerships.findOneBy('art_id', art.id);

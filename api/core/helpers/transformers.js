@@ -13,6 +13,9 @@ module.exports.artistProfile = (artist) => {
 
 module.exports.artProfile = (art) => {
   return {
+    id: art.id,
+    created_at: art.created_at,
+    updated_at: art.updated_at,
     identification: art.identification,
     ownership: art.ownership
   };

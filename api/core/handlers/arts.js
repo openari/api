@@ -77,6 +77,16 @@ module.exports.create = {
   }
 };
 
+module.exports.list = {
+  description: 'Query for an art',
+  cors: true,
+  handler: async function(request, h){
+    let list = await Arts.publicList();
+    list.arts = list.arts.map(Transformers.artProfile);
+    return h.response(list);
+  }
+};
+
 module.exports.getData = {
   description: 'Query for an art',
   cors: true,

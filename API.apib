@@ -116,6 +116,56 @@ API for OpenARI project.
                 "message": "Thank you! We will email you ARI detail after approval."
             }
 
+### List all arts  [GET /arts]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+
++ Response 200
+
+        {
+            "arts": [{
+                "id": 1,
+                "created_at": 1553751648000,
+                "updated_at": 1553751648000,
+                "identification": {
+                    "applicant": "Person or institute name",
+                    "email": "someone@somewhere.com",
+                    "phone": "Contact phone number",
+                    "type_of_object": "painting",
+                    "materials": "wood",
+                    "techniques": "carved",
+                    "measurements": "height: 100cm, width: 100cm",
+                    "inscriptions_and_markings": "",
+                    "distinguishing_features": "",
+                    "title": "My art",
+                    "subject": "Me",
+                    "date_or_period": "March 2019",
+                    "maker": "someone",
+                    "brief": "About who I am",
+                    "attachments": [
+                        {
+                            "url": "https://host.com/attachments/0001.ai",
+                            "hash": "hash code"
+                        }
+                    ]
+                },
+                "ownership": {
+                    "owner": "owner name",
+                    "email": "owner@somewhere.com",
+                    "phone": "Contact phone number",
+                    "price": "NTD1,000,000"
+                }
+            }],
+            "itemsCount": 1
+        }
+
++ Response 404
+
 ### Query for an art  [GET /arts/{art_id}]
 
 + Request (application/json)
@@ -128,6 +178,9 @@ API for OpenARI project.
 + Response 200
 
             {
+                "id": 1,
+                "created_at": 1553751648000,
+                "updated_at": 1553751648000,
                 "identification": {
                     "applicant": "Person or institute name",
                     "email": "someone@somewhere.com",

@@ -16,6 +16,7 @@ const register = async (server, options) => {
     { method: 'POST', path: '/attachments', config: Attachments.upload },
 
     { method: 'POST', path: '/arts', config: Arts.create },
+    { method: 'GET', path: '/arts', config: Arts.list },
     { method: 'GET', path: '/arts/{artId}', config: Arts.getData },
     { method: 'PUT', path: '/arts/{artId}', config: Arts.update },
 
