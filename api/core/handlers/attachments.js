@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 const Joi = require('joi');
-const uuid = require('uuid');
+const uuidv1 = require('uuid/v1');
 
 const storage = require('../../../libs/storage');
 const SHA3WriteStream = require('../../../libs/sha3WriteStream');
@@ -17,6 +17,9 @@ var stream = Joi.object({
 
 module.exports.upload = {
   description: 'Upload an attachment',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: {
       attachment: stream
@@ -40,7 +43,7 @@ module.exports.upload = {
       return h.response({err: 'The file does not existed.'}).code(400);
     }
 
-    let id = uuid.v1();
+    let id = uuidv1();
     let gcsname = id + '_' + file.filename;
 
     let shaWriteStream = new SHA3WriteStream();

@@ -17,6 +17,9 @@ const createBodySchema = Joi.object({
 
 module.exports.create = {
   description: 'Register an application (apply for access)',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: createBodySchema
   },

@@ -4,6 +4,7 @@ const DataStore = require('../libs/datastore');
 const Applications = new DataStore('Applications');
 const ApplicationTokens = new DataStore('ApplicationTokens');
 const jwt = require('jsonwebtoken');
+const uuidv1 = require('uuid/v1');
 
 module.exports.list = async (applicationId) => {
   let params = {
@@ -17,15 +18,9 @@ module.exports.list = async (applicationId) => {
   return await ApplicationTokens.find(params);
 };
 
-module.exports.verifyApplicationToken = async (token) => {
+module.exports.verifyApplicationToken = async (tokenKey) => {
 
-  try {
-    jwt.verify(token, process.env.JWTTOKEN_SECRET);
-  } catch(err) {
-    return Promise.reject('invalid token');
-  }
-
-  let applicationToken = await ApplicationTokens.findOneBy('token', token);
+  let applicationToken = await ApplicationTokens.findOneBy('token_key', tokenKey);
   if (!applicationToken) {
     return Promise.reject('token not found');
   }
@@ -49,7 +44,10 @@ module.exports.create = async (applicationId) => {
   }
 
   var token = jwt.sign(
-    { application_id: application.id },
+    {
+      application_id: application.id,
+      token_key: uuidv1()
+    },
     process.env.JWTTOKEN_SECRET
   );
 

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Admins = require('../models/admins');
+const ApplicationTokens = require('../models/applicationTokens');
 
 const register = async (server, options) => {
 
@@ -10,7 +11,12 @@ const register = async (server, options) => {
     },
     // Implement validation function
     validate: async (decoded, request) => {
+      let token =
+        await ApplicationTokens.verifyApplicationToken(decoded.token_key);
 
+      return {
+        isValid: token !== null
+      };
     }
   });
 

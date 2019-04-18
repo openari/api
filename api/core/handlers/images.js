@@ -15,6 +15,9 @@ var stream = Joi.object({
 
 module.exports.upload = {
   description: 'Upload an image',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: {
       image: stream

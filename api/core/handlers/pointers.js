@@ -24,6 +24,9 @@ const createBodySchema = Joi.object({
 
 module.exports.create = {
   description: 'Add an pointer to an art',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     params: artParamsSchema,
     payload: createBodySchema

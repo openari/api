@@ -22,6 +22,9 @@ const verifyBodySchema = Joi.object({
 
 module.exports.create = {
   description: 'Register an artist (apply for invitation code)',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: createBodySchema
   },
@@ -53,6 +56,9 @@ module.exports.create = {
 module.exports.verify = {
   description: 'Verify an artist',
   cors: true,
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: verifyBodySchema
   },

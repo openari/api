@@ -45,6 +45,9 @@ const artParamsSchema = Joi.object({
 
 module.exports.create = {
   description: 'Register an art',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     payload: createBodySchema,
     failAction: async (request, h, err) => {
@@ -81,6 +84,9 @@ module.exports.create = {
 module.exports.list = {
   description: 'Query for an art',
   cors: true,
+  auth: {
+    strategy: 'jwt'
+  },
   handler: async function(request, h){
     let list = await Arts.publicList();
     list.arts = list.arts.map(Transformers.artProfile);
@@ -91,6 +97,9 @@ module.exports.list = {
 module.exports.getData = {
   description: 'Query for an art',
   cors: true,
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     params: artParamsSchema
   },
@@ -115,6 +124,9 @@ module.exports.getData = {
 
 module.exports.update = {
   description: 'Update an art',
+  auth: {
+    strategy: 'jwt'
+  },
   validate: {
     params: artParamsSchema,
     payload: createBodySchema

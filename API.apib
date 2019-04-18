@@ -34,6 +34,35 @@ API for OpenARI project.
                 "message": "Thank you! We will email you invitation code after approval."
             }
 
+# Group Images
+
+## Images [/images]
+
+### Upload an image  [POST]
+
++ Request (multipart/form-data, boundary=AaB03x)
+
+    + Headers
+
+            Authorization: Bearer JWT
+
+    + Body
+
+            --AaB03x
+            content-disposition: form-data; name="image"; filename="$filename"
+            Content-Type: $mimetype
+            Content-Transfer-Encoding: binary
+
+            $binarydata
+            --AaB03x--
+
+
++ Response 201
+
+            {
+                "url": "url to the image",
+            }
+
 # Group Attachments
 
 ## Attachments [/attachments]
