@@ -1,5 +1,6 @@
 const Home = require('./handlers/home');
 const Artists = require('./handlers/artists');
+const Images = require('./handlers/images');
 const Attachments = require('./handlers/attachments');
 const Arts = require('./handlers/arts');
 const Pointers = require('./handlers/pointers');
@@ -13,6 +14,7 @@ const register = async (server, options) => {
     { method: 'POST', path: '/artists', config: Artists.create },
     { method: 'POST', path: '/artist-verify', config: Artists.verify },
 
+    { method: 'POST', path: '/images', config: Images.upload },
     { method: 'POST', path: '/attachments', config: Attachments.upload },
 
     { method: 'POST', path: '/arts', config: Arts.create },

@@ -28,7 +28,8 @@ const createBodySchema = Joi.object({
     attachments: Joi.array().items(Joi.object({
       url: Joi.string().uri().required(),
       hash: Joi.string().required()
-    }))
+    })),
+    image: Joi.string().uri().required()
   }),
   ownership: Joi.object({
     owner: Joi.string().allow(''),

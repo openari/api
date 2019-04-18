@@ -5,10 +5,8 @@ const Joi = require('joi');
 const uuid = require('uuid');
 
 const storage = require('../../../libs/storage');
-const SHA3WriteStream = require('../../../libs/sha3WriteStream');
 
-const bucketnameAttachments = process.env.BUCKET_ATTACHMENTS;
-
+const bucketnameImages = process.env.BUCKET_IMAGES;
 
 // Custom Joi
 var stream = Joi.object({
@@ -16,36 +14,32 @@ var stream = Joi.object({
 }).unknown();
 
 module.exports.upload = {
-  description: 'Upload an attachment',
+  description: 'Upload an image',
   validate: {
     payload: {
-      attachment: stream
+      image: stream
     }
   },
   payload: {
     output: 'stream',
     allow: 'multipart/form-data',
-    // allow 100 MB
-    maxBytes: 104857600,
+    // allow 10 MB
+    maxBytes: 10485760,
     parse: true
   },
   handler: async function(request, h){
 
-    let bucketname = bucketnameAttachments;
+    let bucketname = bucketnameImages;
 
-    let fileStream = request.payload.attachment;
-    let file = request.payload.attachment.hapi;
+    let fileStream = request.payload.image;
+    let file = request.payload.image.hapi;
 
     if(!file){
       return h.response({err: 'The file does not existed.'}).code(400);
     }
 
-    let id = uuid.v1();
-    let gcsname = id + '_' + file.filename;
+    let gcsname = uuid.v1() + '_' + file.filename;
 
-    let shaWriteStream = new SHA3WriteStream();
-
-    fileStream.pipe(shaWriteStream);
     const isSuccess =
       await storage.upload(
         bucketname, fileStream, file.headers['content-type'], gcsname);
@@ -61,12 +55,9 @@ module.exports.upload = {
     }
 
     let result = {
-      url: url,
-      hash: shaWriteStream.hash()
+      url: url
     };
 
     return h.response(result).code(201);
   }
 };
-
-
