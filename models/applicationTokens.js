@@ -43,17 +43,18 @@ module.exports.create = async (applicationId) => {
     return Promise.reject('application not found');
   }
 
+  let token_key = uuidv1();
+
   var token = jwt.sign(
     {
-      application_id: application.id,
-      token_key: uuidv1()
+      token_key: token_key
     },
     process.env.JWTTOKEN_SECRET
   );
 
   let data = {
     application_id: application.id,
-    token_key: uuidv1(),
+    token_key: token_key,
     token: token,
     status: 'active'
   };
