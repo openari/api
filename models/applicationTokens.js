@@ -51,7 +51,12 @@ module.exports.create = async (applicationId) => {
     process.env.JWTTOKEN_SECRET
   );
 
-  let data = { application_id: application.id, token: token, status: 'active' };
+  let data = {
+    application_id: application.id,
+    token_key: uuidv1(),
+    token: token,
+    status: 'active'
+  };
   return ApplicationTokens.create(data);
 };
 
