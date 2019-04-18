@@ -11,8 +11,17 @@ const register = async (server, options) => {
     },
     // Implement validation function
     validate: async (decoded, request) => {
+
+      if (!decoded.token_key) {
+        return { isValid: false };
+      }
+
       let token =
         await ApplicationTokens.verifyApplicationToken(decoded.token_key);
+
+      if (token !== null) {
+        request.applicationId = token.application_id;
+      }
 
       return {
         isValid: token !== null

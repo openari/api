@@ -25,7 +25,7 @@
     "no-lone-blocks": 0,
     "no-unused-vars": [1, {
       "vars": "all",
-      "argsIgnorePattern": "options",
+      "argsIgnorePattern": "^_",
       "args": "after-used"
     }]
   }
