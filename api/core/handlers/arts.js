@@ -33,9 +33,12 @@ const createBodySchema = Joi.object({
   }),
   ownership: Joi.object({
     owner: Joi.string().allow(''),
+    owner_public: Joi.boolean().required(),
     email: Joi.string().allow(''),
     phone: Joi.string().allow(''),
-    price: Joi.string().allow('')
+    contact_public: Joi.boolean().required(),
+    price: Joi.string().allow(''),
+    price_public: Joi.boolean().required(),
   })
 });
 
