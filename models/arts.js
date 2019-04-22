@@ -5,6 +5,7 @@ const Artists = new DataStore('Artists');
 const Arts = new DataStore('Arts');
 const ArtIdentifications = new DataStore('ArtIdentifications');
 const ArtOwnerships = new DataStore('ArtOwnerships');
+const Pointers = new DataStore('Pointers');
 
 module.exports.list = async () => {
   return await Arts.find({itemsField: 'arts'});
@@ -49,6 +50,38 @@ module.exports.getArtLatest = async (artId) => {
     art.identification = await ArtIdentifications.findOneBy('art_id', art.id);
     art.ownership = await ArtOwnerships.findOneBy('art_id', art.id);
   }
+  return art;
+};
+
+module.exports.getArtLatestAll = async (artId) => {
+
+  let art = await Arts.findById(artId);
+
+  if (!art) {
+    return Promise.reject('art not found');
+  }
+
+  if (art.revision_id) {
+    art.identification = await ArtIdentifications.findOneBy('revision_id', art.revision_id);
+    art.ownership = await ArtOwnerships.findOneBy('revision_id', art.revision_id);
+  } else {
+    art.identification = await ArtIdentifications.findOneBy('art_id', art.id);
+    art.ownership = await ArtOwnerships.findOneBy('art_id', art.id);
+  }
+  let pointers = await Pointers.find({
+    filters: [{
+      prefix: 'status',
+      operator: '=',
+      suffix: 'approved'
+    },{
+      prefix: 'art_id',
+      operator: '=',
+      suffix: art.id
+    }],
+    itemsField: 'list'
+  });
+  art.pointers = pointers.list;
+
   return art;
 };
 

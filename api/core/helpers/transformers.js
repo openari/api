@@ -17,6 +17,7 @@ module.exports.artProfile = (art) => {
     created_at: art.created_at,
     updated_at: art.updated_at,
     identification: art.identification,
-    ownership: art.ownership
+    ownership: art.ownership,
+    pointers: art.pointers
   };
 };

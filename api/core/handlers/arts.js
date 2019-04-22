@@ -112,7 +112,7 @@ module.exports.getData = {
 
     try {
 
-      let art = await Arts.getArtLatest(artId);
+      let art = await Arts.getArtLatestAll(artId);
       art = Transformers.artProfile(art);
       return h.response(art);
 
