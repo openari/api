@@ -5,6 +5,7 @@ require('dotenv').config();
 const Joi = require('joi');
 const rp = require('request-promise-native');
 
+const CryptoService = require('../../../libs/cryptoService');
 const Transformers = require('../helpers/transformers');
 const Arts = require('../../../models/arts');
 
@@ -71,13 +72,15 @@ module.exports.approve = {
 
       const art = await Arts.getArtLatest(artId);
 
-      console.log('sending data to blockchain-gateway');
-      console.log(art);
       const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
+      let payload = CryptoService.encrypt(JSON.stringify(art));
+
+      console.log('sending data to blockchain-gateway');
+      console.log(payload);
       const result = await rp({
         url: gatewayUrl+'/ethereum/sendTransaction',
         method: 'POST',
-        body: { data: art },
+        body: { data: payload },
         json: true
       });
       console.log('Received data from blockchain-gateway');
