@@ -37,7 +37,7 @@ const createBodySchema = Joi.object({
     email: Joi.string().allow(''),
     phone: Joi.string().allow(''),
     contact_public: Joi.boolean().required(),
-    price: Joi.string().allow(''),
+    price: Joi.string().allow('').allow(null),
     price_public: Joi.boolean().required(),
   })
 });
