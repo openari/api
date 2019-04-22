@@ -3,8 +3,11 @@
 require('dotenv').config();
 
 const Joi = require('joi');
+const rp = require('request-promise-native');
 
+const CryptoService = require('../../../libs/cryptoService');
 const Transformers = require('../helpers/transformers');
+const Arts = require('../../../models/arts');
 const ArtRevisions = require('../../../models/artRevisions');
 
 const artRevisionParamsSchema = Joi.object({
@@ -66,7 +69,27 @@ module.exports.approve = {
     try {
       const artRevisionId = request.params.artRevisionId;
       const approve = request.payload.approve;
-      await ArtRevisions.approve(artRevisionId, approve);
+      const revision = await ArtRevisions.approve(artRevisionId, approve);
+
+      const art = await Arts.getArtLatest(revision.art_id);
+
+      const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
+      const json = JSON.stringify(art);
+      const payloadPlain = process.env.BLOCKCHAIN_GATEWAY_SECRET_SALT + json;
+      let payload = CryptoService.encrypt(payloadPlain);
+
+      console.log('sending data to blockchain-gateway');
+      console.log(payload);
+      const result = await rp({
+        url: gatewayUrl+'/ethereum/sendTransaction',
+        method: 'POST',
+        body: { data: payload },
+        json: true
+      });
+      console.log('Received data from blockchain-gateway');
+      console.log(result);
+
+      await Arts.bindToBlockchain(revision.art_id, result.txhash);
 
       const response = {};
       response.msg = 'The art revision status is successfully updated.';

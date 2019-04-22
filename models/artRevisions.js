@@ -73,6 +73,8 @@ module.exports.approve = async (artRevisionId, approve) => {
       subject: artRevision.subject,
       title: artRevision.title
     };
-    Arts.update({ id: art.id, data: data });
+    await Arts.update({ id: art.id, data: data });
   }
+
+  return artRevision;
 };
