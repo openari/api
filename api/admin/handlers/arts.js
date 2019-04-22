@@ -71,11 +71,13 @@ module.exports.approve = {
 
       const art = await Arts.getArtLatest(artId);
 
+      console.log('sending data to blockchain-gateway');
+      console.log(art);
       const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
       const result = await rp({
         url: gatewayUrl+'/ethereum/sendTransaction',
         method: 'POST',
-        body: art,
+        body: { data: art },
         json: true
       });
       console.log('Received data from blockchain-gateway');
