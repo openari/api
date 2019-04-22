@@ -73,7 +73,9 @@ module.exports.approve = {
       const art = await Arts.getArtLatest(artId);
 
       const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
-      let payload = CryptoService.encrypt(JSON.stringify(art));
+      const json = JSON.stringify(art);
+      const payloadPlain = process.env.BLOCKCHAIN_GATEWAY_SECRET_SALT + json;
+      let payload = CryptoService.encrypt(payloadPlain);
 
       console.log('sending data to blockchain-gateway');
       console.log(payload);
