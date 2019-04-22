@@ -3,6 +3,7 @@
 require('dotenv').config();
 
 const Joi = require('joi');
+const request = require('request-promise-native');
 
 const Transformers = require('../helpers/transformers');
 const Arts = require('../../../models/arts');
@@ -67,6 +68,20 @@ module.exports.approve = {
       const artId = request.params.artId;
       const approve = request.payload.approve;
       await Arts.approve(artId, approve);
+
+      const art = await Arts.getArtLatest(artId);
+
+      const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
+      const result = await request({
+        url: gatewayUrl+'/ethereum/sendTransaction',
+        method: 'POST',
+        body: art,
+        json: true
+      });
+      console.log('Received data from blockchain-gateway');
+      console.log(result);
+
+      await Arts.bindToBlockchain(artId, result.txhash);
 
       const response = {};
       response.msg = 'The art status is successfully updated.';

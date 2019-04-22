@@ -87,3 +87,13 @@ module.exports.approve = async (artId, approve) => {
   var data = { status: approve ? 'approved' : 'pending' };
   await Arts.update({ id: art.id, data: data });
 };
+
+module.exports.bindToBlockchain = async (artId, txhash) => {
+
+  const art = await Arts.findById(artId);
+  if (!art) {
+    return Promise.reject('art not found');
+  }
+  var data = { txhash };
+  await Arts.update({ id: art.id, data: data });
+};
