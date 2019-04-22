@@ -14,6 +14,7 @@ module.exports.artistProfile = (artist) => {
 module.exports.artProfile = (art) => {
   return {
     id: art.id,
+    txhash: art.txhash,
     created_at: art.created_at,
     updated_at: art.updated_at,
     identification: art.identification,
