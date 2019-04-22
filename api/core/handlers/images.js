@@ -26,8 +26,8 @@ module.exports.upload = {
   payload: {
     output: 'stream',
     allow: 'multipart/form-data',
-    // allow 10 MB
-    maxBytes: 10485760,
+    // allow 100 MB
+    maxBytes: 104857600,
     parse: true
   },
   handler: async function(request, h){
