@@ -34,4 +34,5 @@ module.exports.artProfile = (art) => {
     transformed.ownership.owner = 'N/A';
   }
 
+  return transformed;
 };
