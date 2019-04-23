@@ -12,7 +12,7 @@ module.exports.artistProfile = (artist) => {
 };
 
 module.exports.artProfile = (art) => {
-  return {
+  let transformed = {
     id: art.id,
     txhash: art.txhash,
     created_at: art.created_at,
@@ -21,4 +21,17 @@ module.exports.artProfile = (art) => {
     ownership: art.ownership,
     pointers: art.pointers
   };
+
+  // remove data that is not public
+  if (transformed.ownership.price_public !== true) {
+    transformed.ownership.price = 'N/A';
+  }
+  if (transformed.ownership.contact_public !== true) {
+    transformed.ownership.email = 'N/A';
+    transformed.ownership.phone = 'N/A';
+  }
+  if (transformed.ownership.owner_public !== true) {
+    transformed.ownership.owner = 'N/A';
+  }
+
 };

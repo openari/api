@@ -73,6 +73,18 @@ module.exports.approve = {
 
       const art = await Arts.getArtLatest(revision.art_id);
 
+      // remove data that is not public before sending them to blockchain
+      if (art.ownership.price_public !== true) {
+        art.ownership.price = 'N/A';
+      }
+      if (art.ownership.contact_public !== true) {
+        art.ownership.email = 'N/A';
+        art.ownership.phone = 'N/A';
+      }
+      if (art.ownership.owner_public !== true) {
+        art.ownership.owner = 'N/A';
+      }
+
       const gatewayUrl = process.env.BLOCKCHAIN_GATEWAY;
       const json = JSON.stringify(art);
       const payloadPlain = process.env.BLOCKCHAIN_GATEWAY_SECRET_SALT + json;
